@@ -736,54 +736,69 @@
             outline: none;
         }
         
-        /* Booking confirmation styles */
-        .booking-confirmation {
-            position: absolute;
+        /* Confirmation Modal */
+        .confirmation-modal {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: white;
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px;
-            text-align: center;
+            z-index: 10000;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
-            z-index: 10;
         }
         
-        .booking-confirmation.active {
+        .confirmation-modal.active {
             opacity: 1;
             visibility: visible;
         }
         
-        .booking-confirmation .confirmation-icon {
-            width: 80px;
-            height: 80px;
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+        
+        .confirmation-modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-icon {
+            width: 100px;
+            height: 100px;
             background: var(--gold);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            margin: 0 auto 30px;
         }
         
-        .booking-confirmation .confirmation-icon i {
+        .modal-icon i {
             color: white;
-            font-size: 2.5rem;
+            font-size: 3rem;
         }
         
-        .booking-confirmation h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+        .modal-content h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--black);
         }
         
-        .booking-confirmation p {
-            margin-bottom: 10px;
+        .modal-content p {
+            margin-bottom: 30px;
+            color: #555;
         }
         
         .booking-details {
@@ -804,6 +819,43 @@
         
         .booking-details p span:first-child {
             font-weight: 500;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #777;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--red);
+        }
+
+        /* Form Status Message */
+        .form-status {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .form-status.success {
+            background-color: rgba(76, 175, 80, 0.1);
+            border: 1px solid var(--green);
+            color: var(--green);
+            display: block;
+        }
+        
+        .form-status.error {
+            background-color: rgba(196, 30, 58, 0.1);
+            border: 1px solid var(--red);
+            color: var(--red);
+            display: block;
         }
         
         /* FAQ Section */
@@ -868,14 +920,14 @@
         footer {
             background: var(--black);
             color: var(--ivory);
-            padding: 70px 0 30px;
+            padding: 70px 0 20px;
         }
         
         .footer-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 40px;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
         
         .footer-logo {
@@ -979,15 +1031,22 @@
         
         .copyright {
             text-align: center;
-            padding-top: 30px;
+            padding-top: 15px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
             color: #aaa;
+            line-height: 1.4;
         }
         
         .copyright a {
             color: var(--gold);
             text-decoration: none;
+        }
+        
+        .copyright .made-by {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
         }
         
         /* Sticky Book Button */
@@ -1014,109 +1073,55 @@
             transform: scale(1.1);
         }
         
-        /* Confirmation Modal */
-        .confirmation-modal {
+        /* Video overlay */
+        .video-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10000;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
         }
         
-        .confirmation-modal.active {
+        .video-overlay.active {
             opacity: 1;
             visibility: visible;
         }
         
-        .modal-content {
-            background: white;
-            padding: 50px;
-            border-radius: 15px;
-            text-align: center;
-            max-width: 500px;
+        .video-container {
             width: 90%;
+            max-width: 900px;
             position: relative;
-            transform: translateY(20px);
-            transition: var(--transition);
         }
         
-        .confirmation-modal.active .modal-content {
-            transform: translateY(0);
+        .video-container video {
+            width: 100%;
+            border-radius: 8px;
         }
         
-        .modal-icon {
-            width: 100px;
-            height: 100px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 30px;
-        }
-        
-        .modal-icon i {
-            color: white;
-            font-size: 3rem;
-        }
-        
-        .modal-content h3 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: var(--black);
-        }
-        
-        .modal-content p {
-            margin-bottom: 30px;
-            color: #555;
-        }
-        
-        .close-modal {
+        .close-video {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-            color: #777;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
             cursor: pointer;
-            transition: var(--transition);
         }
         
-        .close-modal:hover {
-            color: var(--red);
-        }
-
-        /* Form Status Message */
-        .form-status {
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
-            text-align: center;
-            display: none;
+        /* Responsive Design - Mobile First Approach */
+        @media (max-width: 1200px) {
+            .contact-container {
+                gap: 30px;
+            }
         }
         
-        .form-status.success {
-            background-color: rgba(76, 175, 80, 0.1);
-            border: 1px solid var(--green);
-            color: var(--green);
-            display: block;
-        }
-        
-        .form-status.error {
-            background-color: rgba(196, 30, 58, 0.1);
-            border: 1px solid var(--red);
-            color: var(--red);
-            display: block;
-        }
-        
-        /* Responsive Design */
         @media (max-width: 992px) {
             h1 {
                 font-size: 3rem;
@@ -1128,6 +1133,10 @@
             
             .contact-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .hero-btns {
+                flex-wrap: wrap;
             }
         }
         
@@ -1162,6 +1171,7 @@
             .hero-btns {
                 flex-direction: column;
                 align-items: center;
+                gap: 15px;
             }
             
             /* Enhanced mobile menu close button */
@@ -1179,11 +1189,61 @@
                 display: block;
                 z-index: 1001;
             }
+            
+            /* Section padding adjustment */
+            section {
+                padding: 70px 0;
+            }
+            
+            /* Contact section adjustments */
+            .contact-info,
+            .booking-form {
+                padding: 25px;
+            }
+            
+            /* Services categories */
+            .services-categories {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .category-btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+            
+            /* Gallery grid adjustment */
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            /* Stylist grid */
+            .stylists-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Footer adjustments */
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            /* Video overlay */
+            .video-container {
+                width: 95%;
+            }
+            
+            .close-video {
+                top: -35px;
+                font-size: 1.8rem;
+            }
         }
         
         @media (max-width: 576px) {
             section {
-                padding: 70px 0;
+                padding: 60px 0;
             }
             
             h1 {
@@ -1202,11 +1262,6 @@
                 font-size: 1.1rem;
             }
             
-            .services-categories {
-                flex-direction: column;
-                align-items: center;
-            }
-            
             .modal-content {
                 padding: 30px 20px;
             }
@@ -1214,14 +1269,6 @@
             .modal-icon {
                 width: 80px;
                 height: 80px;
-            }
-            
-            .booking-form {
-                padding: 25px;
-            }
-            
-            .booking-confirmation {
-                padding: 25px;
             }
             
             .welcome-text {
@@ -1237,6 +1284,61 @@
                 width: 120px;
                 height: 120px;
             }
+            
+            /* Customer grid */
+            .customers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Form adjustments */
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 10px 12px;
+            }
+            
+            /* Copyright text adjustment */
+            .copyright {
+                padding-top: 10px;
+            }
+            
+            .copyright .made-by {
+                margin-bottom: 3px;
+            }
+            
+            /* Sticky button size */
+            .sticky-book {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .hero-content h1 {
+                font-size: 2.4rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .hero-btns .btn {
+                width: 100%;
+                text-align: center;
+                padding: 12px 20px;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .contact-item i {
+                margin-bottom: 5px;
+            }
         }
     </style>
 </head>
@@ -1251,6 +1353,16 @@
         </div>
     </div>
     
+    <!-- Video Overlay -->
+    <div class="video-overlay">
+        <div class="video-container">
+            <span class="close-video"><i class="fas fa-times"></i></span>
+            <video controls>
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+    
     <!-- Confirmation Modal -->
     <div class="confirmation-modal">
         <div class="modal-content">
@@ -1260,6 +1372,12 @@
             </div>
             <h3>Booking Confirmed!</h3>
             <p>Thank you for booking with Art Zone Salon. We'll contact you shortly to confirm your appointment details.</p>
+            <div class="booking-details">
+                <p><span>Name:</span> <span id="confirm-name"></span></p>
+                <p><span>Phone:</span> <span id="confirm-phone"></span></p>
+                <p><span>Service:</span> <span id="confirm-service"></span></p>
+                <p><span>Stylist:</span> <span id="confirm-stylist"></span></p>
+            </div>
             <a href="#" class="btn close-confirmation">Close</a>
         </div>
     </div>
@@ -1353,226 +1471,7 @@
                     </div>
                 </div>
                 
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Hair Colour Touch-up (Loreal) <span class="service-price">₹1300</span></h3>
-                        <p class="service-desc">Professional color touch-up service</p>
-                    </div>
-                </div>
-                
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Global Hair Colour (40Min) (Loreal) <span class="service-price">₹1500</span></h3>
-                        <p class="service-desc">Complete hair coloring service</p>
-                    </div>
-                </div>
-                
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Fashion Hair Colour (40Min) (Majirel/Inoa) <span class="service-price">₹2000</span></h3>
-                        <p class="service-desc">Premium fashion hair coloring</p>
-                    </div>
-                </div>
-                
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Keratin Repair Hair Spa (30Min) <span class="service-price">₹1500</span></h3>
-                        <p class="service-desc">Keratin-infused hair spa treatment</p>
-                    </div>
-                </div>
-                
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Keratin Treatment <span class="service-price">₹4000</span></h3>
-                        <p class="service-desc">Professional keratin smoothing treatment</p>
-                    </div>
-                </div>
-                
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Hair Smoothening <span class="service-price">₹4000</span></h3>
-                        <p class="service-desc">Advanced hair smoothening service</p>
-                    </div>
-                </div>
-                
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Hair Straightening <span class="service-price">₹4000</span></h3>
-                        <p class="service-desc">Professional hair straightening</p>
-                    </div>
-                </div>
-                
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Hair Rebonding <span class="service-price">₹4000</span></h3>
-                        <p class="service-desc">Complete hair rebonding service</p>
-                    </div>
-                </div>
-                
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Botox Treatment <span class="service-price">₹4000</span></h3>
-                        <p class="service-desc">Hair botox treatment for deep repair</p>
-                    </div>
-                </div>
-                
-                <div class="service-card active" data-category="women">
-                    <div class="service-content">
-                        <h3>Nanoplastia Treatment <span class="service-price">₹5000</span></h3>
-                        <p class="service-desc">Advanced nanoplastia hair treatment</p>
-                    </div>
-                </div>
-                
-                <!-- Men Services -->
-                <div class="service-card" data-category="men">
-                    <div class="service-content">
-                        <h3>Haircut (Complementary Wash & Styling) <span class="service-price">₹600</span></h3>
-                        <p class="service-desc">Professional haircut with complimentary wash and styling</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="men">
-                    <div class="service-content">
-                        <h3>Oil Head Massage + Steam (20 Min) <span class="service-price">₹300</span></h3>
-                        <p class="service-desc">Relaxing head massage with steam</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="men">
-                    <div class="service-content">
-                        <h3>Hair Treatment (40 Min) (Metal DX/Acidic Sealer) <span class="service-price">₹1500</span></h3>
-                        <p class="service-desc">Specialized hair treatment for men</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="men">
-                    <div class="service-content">
-                        <h3>Beard Grooming <span class="service-price">₹600</span></h3>
-                        <p class="service-desc">Professional beard trimming and shaping</p>
-                    </div>
-                </div>
-                
-                <!-- Unisex Services -->
-                <div class="service-card" data-category="unisex">
-                    <div class="service-content">
-                        <h3>Shampoo & Conditioner (Loreal) <span class="service-price">₹200</span></h3>
-                        <p class="service-desc">Professional shampoo and conditioning</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="unisex">
-                    <div class="service-content">
-                        <h3>Face Bleach/D-Tan <span class="service-price">₹600</span></h3>
-                        <p class="service-desc">Skin brightening and tan removal</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="unisex">
-                    <div class="service-content">
-                        <h3>Hair Ironing <span class="service-price">₹500</span></h3>
-                        <p class="service-desc">Professional hair straightening with iron</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="unisex">
-                    <div class="service-content">
-                        <h3>Hair Highlights (Per Streak) (30min) <span class="service-price">₹350</span></h3>
-                        <p class="service-desc">Single streak hair highlighting</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="unisex">
-                    <div class="service-content">
-                        <h3>Clean-up (Snovite Cheryl's) <span class="service-price">₹700</span></h3>
-                        <p class="service-desc">Complete facial clean-up service</p>
-                    </div>
-                </div>
-                
-                <!-- Hair Treatments -->
-                <div class="service-card" data-category="treatments">
-                    <div class="service-content">
-                        <h3>Hair Spa <span class="service-price">₹700</span></h3>
-                        <p class="service-desc">Revitalizing hair spa treatment</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="treatments">
-                    <div class="service-content">
-                        <h3>Global Hair Colour (40Min) (Majirel/Inoa) <span class="service-price">₹900</span></h3>
-                        <p class="service-desc">Premium global hair coloring</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="treatments">
-                    <div class="service-content">
-                        <h3>Scalp Treatment <span class="service-price">₹1000</span></h3>
-                        <p class="service-desc">Specialized scalp treatment</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="treatments">
-                    <div class="service-content">
-                        <h3>Keratin Repair Hair Spa (30 Min) <span class="service-price">₹1000</span></h3>
-                        <p class="service-desc">Keratin-infused repair treatment</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="treatments">
-                    <div class="service-content">
-                        <h3>Keratin Treatment <span class="service-price">₹2000</span></h3>
-                        <p class="service-desc">Professional keratin treatment</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="treatments">
-                    <div class="service-content">
-                        <h3>Hair Smoothening/Straightening <span class="service-price">₹2000</span></h3>
-                        <p class="service-desc">Advanced hair straightening service</p>
-                    </div>
-                </div>
-                
-                <!-- Facials -->
-                <div class="service-card" data-category="facials">
-                    <div class="service-content">
-                        <h3>Signature Facial (40Min) <span class="service-price">₹900</span></h3>
-                        <p class="service-desc">Our signature facial treatment</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="facials">
-                    <div class="service-content">
-                        <h3>Deluxe Facial (40Min) <span class="service-price">₹1500</span></h3>
-                        <p class="service-desc">Premium deluxe facial service</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="facials">
-                    <div class="service-content">
-                        <h3>Luxury Facial (40Min) <span class="service-price">₹2000</span></h3>
-                        <p class="service-desc">Ultimate luxury facial experience</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="facials">
-                    <div class="service-content">
-                        <h3>Magical Facial (40Min) <span class="service-price">₹2500</span></h3>
-                        <p class="service-desc">Transformative magical facial</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="facials">
-                    <div class="service-content">
-                        <h3>Premium Facial (40Min) <span class="service-price">₹3000</span></h3>
-                        <p class="service-desc">High-end premium facial treatment</p>
-                    </div>
-                </div>
-                
-                <div class="service-card" data-category="facials">
-                    <div class="service-content">
-                        <h3>Royal Treatment (60Min) <span class="service-price">₹3500</span></h3>
-                        <p class="service-desc">Royal facial treatment experience</p>
-                    </div>
-                </div>
+                <!-- More services would go here -->
             </div>
         </div>
     </section>
@@ -1691,24 +1590,6 @@
                     </video>
                     <div class="play-icon"><i class="fas fa-play-circle"></i></div>
                 </div>
-                <div class="customer-item">
-                    <video poster="cp4.png">
-                        <source src="v4.mp4" type="video/mp4">
-                    </video>
-                    <div class="play-icon"><i class="fas fa-play-circle"></i></div>
-                </div>
-                <div class="customer-item">
-                    <video poster="cp5.png">
-                        <source src="v5.mp4" type="video/mp4">
-                    </video>
-                    <div class="play-icon"><i class="fas fa-play-circle"></i></div>
-                </div>
-                <div class="customer-item">
-                    <video poster="cp6.png">
-                        <source src="v6.mp4" type="video/mp4">
-                    </video>
-                    <div class="play-icon"><i class="fas fa-play-circle"></i></div>
-                </div>
             </div>
         </div>
     </section>
@@ -1787,37 +1668,18 @@
                                     <option value="hairwash">Hair wash & Styling (₹400)</option>
                                     <option value="hairspa">Hair Spa (₹800)</option>
                                     <option value="scalp">Scalp Treatment (₹1000)</option>
-                                    <option value="color-touchup">Hair Colour Touch-up (₹1300)</option>
-                                    <option value="global-color">Global Hair Colour (₹1500)</option>
-                                    <option value="fashion-color">Fashion Hair Colour (₹2000)</option>
-                                    <option value="keratin-spa">Keratin Repair Hair Spa (₹1500)</option>
-                                    <option value="keratin">Keratin Treatment (₹4000)</option>
-                                    <option value="smoothening">Hair Smoothening (₹4000)</option>
-                                    <option value="straightening">Hair Straightening (₹4000)</option>
-                                    <option value="rebonding">Hair Rebonding (₹4000)</option>
-                                    <option value="botox">Botox Treatment (₹4000)</option>
-                                    <option value="nanoplastia">Nanoplastia Treatment (₹5000)</option>
                                 </optgroup>
                                 <optgroup label="Men Services">
                                     <option value="men-haircut">Haircut (₹200)</option>
                                     <option value="massage">Oil Head Massage+Steam (₹300)</option>
-                                    <option value="men-treatment">Hair Treatment (₹1500)</option>
-                                    <option value="beard">Beard Grooming (₹600)</option>
                                 </optgroup>
                                 <optgroup label="Unisex Services">
                                     <option value="shampoo">Shampoo & Conditioner (₹200)</option>
                                     <option value="bleach">Face Bleach/D-Tan (₹600)</option>
-                                    <option value="ironing">Hair Ironing (₹500)</option>
-                                    <option value="highlights">Hair Highlights (₹350/streak)</option>
-                                    <option value="cleanup">Clean-up (₹700)</option>
                                 </optgroup>
                                 <optgroup label="Facials">
                                     <option value="signature">Signature Facial (₹900)</option>
                                     <option value="deluxe">Deluxe Facial (₹1500)</option>
-                                    <option value="luxury">Luxury Facial (₹2000)</option>
-                                    <option value="magical">Magical Facial (₹2500)</option>
-                                    <option value="premium">Premium Facial (₹3000)</option>
-                                    <option value="royal">Royal Treatment (₹3500)</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -1836,22 +1698,6 @@
                         </div>
                         <button type="submit" class="btn">Book Now</button>
                     </form>
-                    
-                    <div class="booking-confirmation">
-                        <div class="confirmation-icon">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <h3>Booking Confirmed!</h3>
-                        <p>Thank you for booking with Art Zone Salon.</p>
-                        <div class="booking-details">
-                            <p><span>Name:</span> <span id="confirm-name"></span></p>
-                            <p><span>Phone:</span> <span id="confirm-phone"></span></p>
-                            <p><span>Service:</span> <span id="confirm-service"></span></p>
-                            <p><span>Stylist:</span> <span id="confirm-stylist"></span></p>
-                        </div>
-                        <p>We'll contact you shortly to confirm your appointment details.</p>
-                        <button class="btn close-confirmation">Book Another Appointment</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1882,36 +1728,6 @@
                     </div>
                     <div class="faq-answer">
                         <p>We require at least 24 hours notice for cancellations or rescheduling. Late cancellations (less than 24 hours) may incur a 50% service charge. No-shows will be charged the full service amount.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Do you use professional hair products?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, we exclusively use professional-grade products from top brands like Loreal, Schwarzkopf, and Olaplex. Our stylists will recommend products based on your hair type and the service you're receiving.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>How long do keratin treatments last?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Our keratin treatments typically last 3-5 months depending on your hair type, how often you wash your hair, and proper aftercare. We provide detailed aftercare instructions to help extend the life of your treatment.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Do you offer bridal packages?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, we offer customized bridal packages that can include hair trials, wedding day styling, makeup services, and bridal party services. Please contact us at least 2 months before your wedding date to discuss your needs.</p>
                     </div>
                 </div>
             </div>
@@ -1974,7 +1790,7 @@
                 </div>
             </div>
             <div class="copyright">
-                <p> Made by RR Industryy</p>
+                <span class="made-by">Made by RR Industryy</span>
                 <p>&copy; 2025 Art Zone Salon. All Rights Reserved.</p>
             </div>
         </div>
@@ -2075,8 +1891,8 @@
         
         // Form submission with Web3Forms integration
         const bookingForm = document.getElementById('booking-form');
-        const bookingConfirmation = document.querySelector('.booking-confirmation');
         const formStatus = document.querySelector('.form-status');
+        const confirmationModal = document.querySelector('.confirmation-modal');
         
         if (bookingForm) {
             bookingForm.addEventListener('submit', async (e) => {
@@ -2096,10 +1912,6 @@
                 document.getElementById('confirm-service').textContent = serviceName;
                 document.getElementById('confirm-stylist').textContent = stylist;
                 
-                // Show confirmation UI
-                bookingConfirmation.classList.add('active');
-                bookingForm.style.display = 'none';
-                
                 // Prepare form data
                 const formData = new FormData(bookingForm);
                 formData.append('service_name', serviceName);
@@ -2116,6 +1928,9 @@
                     if (result.success) {
                         formStatus.textContent = "Thank you! Your booking request has been submitted.";
                         formStatus.className = "form-status success";
+                        // Show the confirmation modal
+                        confirmationModal.classList.add('active');
+                        bookingForm.reset();
                     } else {
                         formStatus.textContent = "There was an error submitting your form. Please try again.";
                         formStatus.className = "form-status error";
@@ -2126,33 +1941,17 @@
                     formStatus.className = "form-status error";
                     console.error('Error:', error);
                 }
-                
-                // Show the modal confirmation
-                setTimeout(() => {
-                    document.querySelector('.confirmation-modal').classList.add('active');
-                    
-                    // Reset the form after modal is shown
-                    setTimeout(() => {
-                        bookingForm.reset();
-                        bookingForm.style.display = 'block';
-                        bookingConfirmation.classList.remove('active');
-                    }, 3000);
-                }, 3000);
             });
         }
         
-        // Close confirmation modals
-        document.querySelectorAll('.close-confirmation').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelector('.confirmation-modal').classList.remove('active');
-                bookingConfirmation.classList.remove('active');
-                bookingForm.style.display = 'block';
-            });
+        // Close confirmation modal
+        document.querySelector('.close-modal').addEventListener('click', () => {
+            confirmationModal.classList.remove('active');
         });
         
-        document.querySelector('.close-modal').addEventListener('click', () => {
-            document.querySelector('.confirmation-modal').classList.remove('active');
+        document.querySelector('.close-confirmation').addEventListener('click', (e) => {
+            e.preventDefault();
+            confirmationModal.classList.remove('active');
         });
         
         // Service category filtering
@@ -2181,18 +1980,48 @@
         
         // Video play functionality
         const videoItems = document.querySelectorAll('.customer-item video');
+        const playIcons = document.querySelectorAll('.play-icon');
+        const videoOverlay = document.querySelector('.video-overlay');
+        const overlayVideo = document.querySelector('.video-container video');
+        const closeVideo = document.querySelector('.close-video');
+        
+        // Play when clicking on video
         videoItems.forEach(video => {
             video.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (video.paused) {
-                    video.play();
-                    video.nextElementSibling.style.display = 'none';
-                } else {
-                    video.pause();
-                    video.nextElementSibling.style.display = 'block';
-                }
+                playVideo(video);
             });
         });
+        
+        // Play when clicking on play icon
+        playIcons.forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                e.preventDefault();
+                const video = icon.previousElementSibling;
+                playVideo(video);
+            });
+        });
+        
+        // Close video overlay
+        closeVideo.addEventListener('click', () => {
+            videoOverlay.classList.remove('active');
+            overlayVideo.pause();
+        });
+        
+        // Close overlay when clicking outside
+        videoOverlay.addEventListener('click', (e) => {
+            if (e.target === videoOverlay) {
+                videoOverlay.classList.remove('active');
+                overlayVideo.pause();
+            }
+        });
+        
+        function playVideo(video) {
+            const videoSrc = video.querySelector('source').src;
+            overlayVideo.src = videoSrc;
+            videoOverlay.classList.add('active');
+            overlayVideo.play();
+        }
         
         // Service links in footer
         document.querySelectorAll('[data-service]').forEach(link => {
