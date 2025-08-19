@@ -80,6 +80,7 @@
             align-items: center;
             z-index: 9999;
             flex-direction: column;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
         
         .preloader-content {
@@ -254,7 +255,7 @@
             padding: 100px 0;
         }
         
-        /* Header Styles - Enhanced with right-aligned hamburger */
+        /* Header Styles */
         header {
             position: fixed;
             top: 0;
@@ -360,7 +361,7 @@
             color: var(--ivory);
             font-size: 1.5rem;
             cursor: pointer;
-            margin-left: auto; /* Push to the right */
+            margin-left: auto;
             padding: 10px;
             z-index: 1001;
         }
@@ -617,15 +618,17 @@
             border-radius: 8px;
             overflow: hidden;
             position: relative;
+            cursor: pointer;
         }
         
-        .customer-item img, .customer-item video {
+        .customer-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
         
-        .customer-item .play-icon {
+        .play-icon {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -633,6 +636,12 @@
             color: white;
             font-size: 3rem;
             opacity: 0.8;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+        
+        .customer-item.playing .play-icon {
+            opacity: 0;
         }
         
         /* Contact Section */
@@ -1073,49 +1082,7 @@
             transform: scale(1.1);
         }
         
-        /* Video overlay */
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-        
-        .video-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .video-container {
-            width: 90%;
-            max-width: 900px;
-            position: relative;
-        }
-        
-        .video-container video {
-            width: 100%;
-            border-radius: 8px;
-        }
-        
-        .close-video {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-        }
-        
-        /* Responsive Design - Mobile First Approach */
+        /* Responsive Design */
         @media (max-width: 1200px) {
             .contact-container {
                 gap: 30px;
@@ -1165,7 +1132,7 @@
             
             .mobile-toggle {
                 display: block;
-                order: 2; /* Move to the right */
+                order: 2;
             }
             
             .hero-btns {
@@ -1174,7 +1141,6 @@
                 gap: 15px;
             }
             
-            /* Enhanced mobile menu close button */
             .mobile-close {
                 position: absolute;
                 top: 30px;
@@ -1190,18 +1156,15 @@
                 z-index: 1001;
             }
             
-            /* Section padding adjustment */
             section {
                 padding: 70px 0;
             }
             
-            /* Contact section adjustments */
             .contact-info,
             .booking-form {
                 padding: 25px;
             }
             
-            /* Services categories */
             .services-categories {
                 flex-direction: column;
                 align-items: center;
@@ -1214,30 +1177,17 @@
                 text-align: center;
             }
             
-            /* Gallery grid adjustment */
             .gallery-grid {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
             
-            /* Stylist grid */
             .stylists-grid {
                 grid-template-columns: 1fr;
             }
             
-            /* Footer adjustments */
             .footer-container {
                 grid-template-columns: 1fr;
                 gap: 30px;
-            }
-            
-            /* Video overlay */
-            .video-container {
-                width: 95%;
-            }
-            
-            .close-video {
-                top: -35px;
-                font-size: 1.8rem;
             }
         }
         
@@ -1285,19 +1235,16 @@
                 height: 120px;
             }
             
-            /* Customer grid */
             .customers-grid {
                 grid-template-columns: 1fr;
             }
             
-            /* Form adjustments */
             .form-group input,
             .form-group select,
             .form-group textarea {
                 padding: 10px 12px;
             }
             
-            /* Copyright text adjustment */
             .copyright {
                 padding-top: 10px;
             }
@@ -1306,7 +1253,6 @@
                 margin-bottom: 3px;
             }
             
-            /* Sticky button size */
             .sticky-book {
                 width: 50px;
                 height: 50px;
@@ -1350,16 +1296,6 @@
                 <img src="logo.jpg" alt="Art Zone Salon">
             </div>
             <div class="welcome-text">Welcome to Art Zone Salon</div>
-        </div>
-    </div>
-    
-    <!-- Video Overlay -->
-    <div class="video-overlay">
-        <div class="video-container">
-            <span class="close-video"><i class="fas fa-times"></i></span>
-            <video controls>
-                Your browser does not support the video tag.
-            </video>
         </div>
     </div>
     
@@ -2091,18 +2027,20 @@
     <script>
         // Enhanced Preloader
         window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            // Start fade out after 1.5 seconds (reduced from 3)
             setTimeout(function() {
-                const preloader = document.getElementById('preloader');
                 preloader.style.opacity = '0';
                 preloader.style.visibility = 'hidden';
                 
+                // Remove from DOM after fade out completes
                 setTimeout(function() {
                     preloader.style.display = 'none';
                 }, 500);
-            }, 3000); // Increased to 3 seconds to allow full animation
+            }, 1500);
         });
         
-        // Mobile Navigation Toggle - Enhanced with right-aligned hamburger
+        // Mobile Navigation Toggle
         const mobileToggle = document.querySelector('.mobile-toggle');
         const mobileClose = document.querySelector('.mobile-close');
         const navMenu = document.querySelector('nav ul');
@@ -2110,13 +2048,13 @@
         mobileToggle.addEventListener('click', () => {
             navMenu.classList.add('active');
             mobileClose.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+            document.body.style.overflow = 'hidden';
         });
         
         mobileClose.addEventListener('click', () => {
             navMenu.classList.remove('active');
             mobileClose.style.display = 'none';
-            document.body.style.overflow = ''; // Re-enable scrolling
+            document.body.style.overflow = '';
         });
         
         // Close menu when clicking on a link
@@ -2265,50 +2203,44 @@
             });
         });
         
-        // Video play functionality
-        const videoItems = document.querySelectorAll('.customer-item video');
-        const playIcons = document.querySelectorAll('.play-icon');
-        const videoOverlay = document.querySelector('.video-overlay');
-        const overlayVideo = document.querySelector('.video-container video');
-        const closeVideo = document.querySelector('.close-video');
+        // Video play functionality - play directly in card
+        const videoItems = document.querySelectorAll('.customer-item');
         
-        // Play when clicking on video
-        videoItems.forEach(video => {
-            video.addEventListener('click', (e) => {
+        videoItems.forEach(item => {
+            const video = item.querySelector('video');
+            const playIcon = item.querySelector('.play-icon');
+            
+            item.addEventListener('click', (e) => {
                 e.preventDefault();
-                playVideo(video);
+                
+                if (video.paused) {
+                    // Pause all other videos
+                    document.querySelectorAll('.customer-item video').forEach(v => {
+                        if (v !== video) {
+                            v.pause();
+                            v.parentElement.classList.remove('playing');
+                            v.parentElement.querySelector('.play-icon').style.display = 'block';
+                        }
+                    });
+                    
+                    // Play this video
+                    video.play();
+                    item.classList.add('playing');
+                    playIcon.style.display = 'none';
+                } else {
+                    // Pause this video
+                    video.pause();
+                    item.classList.remove('playing');
+                    playIcon.style.display = 'block';
+                }
+            });
+            
+            // Hide play icon when video ends
+            video.addEventListener('ended', () => {
+                item.classList.remove('playing');
+                playIcon.style.display = 'block';
             });
         });
-        
-        // Play when clicking on play icon
-        playIcons.forEach(icon => {
-            icon.addEventListener('click', (e) => {
-                e.preventDefault();
-                const video = icon.previousElementSibling;
-                playVideo(video);
-            });
-        });
-        
-        // Close video overlay
-        closeVideo.addEventListener('click', () => {
-            videoOverlay.classList.remove('active');
-            overlayVideo.pause();
-        });
-        
-        // Close overlay when clicking outside
-        videoOverlay.addEventListener('click', (e) => {
-            if (e.target === videoOverlay) {
-                videoOverlay.classList.remove('active');
-                overlayVideo.pause();
-            }
-        });
-        
-        function playVideo(video) {
-            const videoSrc = video.querySelector('source').src;
-            overlayVideo.src = videoSrc;
-            videoOverlay.classList.add('active');
-            overlayVideo.play();
-        }
         
         // Service links in footer
         document.querySelectorAll('[data-service]').forEach(link => {
