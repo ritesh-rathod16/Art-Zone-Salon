@@ -80,7 +80,6 @@
             align-items: center;
             z-index: 9999;
             flex-direction: column;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
         
         .preloader-content {
@@ -255,7 +254,7 @@
             padding: 100px 0;
         }
         
-        /* Header Styles */
+        /* Header Styles - Enhanced with right-aligned hamburger */
         header {
             position: fixed;
             top: 0;
@@ -361,7 +360,7 @@
             color: var(--ivory);
             font-size: 1.5rem;
             cursor: pointer;
-            margin-left: auto;
+            margin-left: auto; /* Push to the right */
             padding: 10px;
             z-index: 1001;
         }
@@ -618,17 +617,15 @@
             border-radius: 8px;
             overflow: hidden;
             position: relative;
-            cursor: pointer;
         }
         
-        .customer-item video {
+        .customer-item img, .customer-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
         }
         
-        .play-icon {
+        .customer-item .play-icon {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -636,12 +633,6 @@
             color: white;
             font-size: 3rem;
             opacity: 0.8;
-            transition: var(--transition);
-            pointer-events: none;
-        }
-        
-        .customer-item.playing .play-icon {
-            opacity: 0;
         }
         
         /* Contact Section */
@@ -745,69 +736,54 @@
             outline: none;
         }
         
-        /* Confirmation Modal */
-        .confirmation-modal {
-            position: fixed;
+        /* Booking confirmation styles */
+        .booking-confirmation {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: white;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10000;
+            padding: 40px;
+            text-align: center;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
+            z-index: 10;
         }
         
-        .confirmation-modal.active {
+        .booking-confirmation.active {
             opacity: 1;
             visibility: visible;
         }
         
-        .modal-content {
-            background: white;
-            padding: 50px;
-            border-radius: 15px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            transform: translateY(20px);
-            transition: var(--transition);
-        }
-        
-        .confirmation-modal.active .modal-content {
-            transform: translateY(0);
-        }
-        
-        .modal-icon {
-            width: 100px;
-            height: 100px;
+        .booking-confirmation .confirmation-icon {
+            width: 80px;
+            height: 80px;
             background: var(--gold);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0 auto 30px;
-        }
-        
-        .modal-icon i {
-            color: white;
-            font-size: 3rem;
-        }
-        
-        .modal-content h3 {
-            font-size: 2rem;
             margin-bottom: 20px;
-            color: var(--black);
         }
         
-        .modal-content p {
-            margin-bottom: 30px;
-            color: #555;
+        .booking-confirmation .confirmation-icon i {
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        .booking-confirmation h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .booking-confirmation p {
+            margin-bottom: 10px;
         }
         
         .booking-details {
@@ -828,43 +804,6 @@
         
         .booking-details p span:first-child {
             font-weight: 500;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-            color: #777;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .close-modal:hover {
-            color: var(--red);
-        }
-
-        /* Form Status Message */
-        .form-status {
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
-            text-align: center;
-            display: none;
-        }
-        
-        .form-status.success {
-            background-color: rgba(76, 175, 80, 0.1);
-            border: 1px solid var(--green);
-            color: var(--green);
-            display: block;
-        }
-        
-        .form-status.error {
-            background-color: rgba(196, 30, 58, 0.1);
-            border: 1px solid var(--red);
-            color: var(--red);
-            display: block;
         }
         
         /* FAQ Section */
@@ -929,14 +868,14 @@
         footer {
             background: var(--black);
             color: var(--ivory);
-            padding: 70px 0 20px;
+            padding: 70px 0 30px;
         }
         
         .footer-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 40px;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
         
         .footer-logo {
@@ -1040,22 +979,15 @@
         
         .copyright {
             text-align: center;
-            padding-top: 15px;
+            padding-top: 30px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
             color: #aaa;
-            line-height: 1.4;
         }
         
         .copyright a {
             color: var(--gold);
             text-decoration: none;
-        }
-        
-        .copyright .made-by {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
         }
         
         /* Sticky Book Button */
@@ -1082,13 +1014,109 @@
             transform: scale(1.1);
         }
         
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .contact-container {
-                gap: 30px;
-            }
+        /* Confirmation Modal */
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
         }
         
+        .confirmation-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+        
+        .confirmation-modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 30px;
+        }
+        
+        .modal-icon i {
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .modal-content h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--black);
+        }
+        
+        .modal-content p {
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #777;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--red);
+        }
+
+        /* Form Status Message */
+        .form-status {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .form-status.success {
+            background-color: rgba(76, 175, 80, 0.1);
+            border: 1px solid var(--green);
+            color: var(--green);
+            display: block;
+        }
+        
+        .form-status.error {
+            background-color: rgba(196, 30, 58, 0.1);
+            border: 1px solid var(--red);
+            color: var(--red);
+            display: block;
+        }
+        
+        /* Responsive Design */
         @media (max-width: 992px) {
             h1 {
                 font-size: 3rem;
@@ -1100,10 +1128,6 @@
             
             .contact-container {
                 grid-template-columns: 1fr;
-            }
-            
-            .hero-btns {
-                flex-wrap: wrap;
             }
         }
         
@@ -1132,15 +1156,15 @@
             
             .mobile-toggle {
                 display: block;
-                order: 2;
+                order: 2; /* Move to the right */
             }
             
             .hero-btns {
                 flex-direction: column;
                 align-items: center;
-                gap: 15px;
             }
             
+            /* Enhanced mobile menu close button */
             .mobile-close {
                 position: absolute;
                 top: 30px;
@@ -1155,45 +1179,11 @@
                 display: block;
                 z-index: 1001;
             }
-            
-            section {
-                padding: 70px 0;
-            }
-            
-            .contact-info,
-            .booking-form {
-                padding: 25px;
-            }
-            
-            .services-categories {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            .category-btn {
-                width: 100%;
-                max-width: 300px;
-                text-align: center;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-            
-            .stylists-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
         }
         
         @media (max-width: 576px) {
             section {
-                padding: 60px 0;
+                padding: 70px 0;
             }
             
             h1 {
@@ -1212,6 +1202,11 @@
                 font-size: 1.1rem;
             }
             
+            .services-categories {
+                flex-direction: column;
+                align-items: center;
+            }
+            
             .modal-content {
                 padding: 30px 20px;
             }
@@ -1219,6 +1214,14 @@
             .modal-icon {
                 width: 80px;
                 height: 80px;
+            }
+            
+            .booking-form {
+                padding: 25px;
+            }
+            
+            .booking-confirmation {
+                padding: 25px;
             }
             
             .welcome-text {
@@ -1233,57 +1236,6 @@
             .logo-frame img {
                 width: 120px;
                 height: 120px;
-            }
-            
-            .customers-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-group input,
-            .form-group select,
-            .form-group textarea {
-                padding: 10px 12px;
-            }
-            
-            .copyright {
-                padding-top: 10px;
-            }
-            
-            .copyright .made-by {
-                margin-bottom: 3px;
-            }
-            
-            .sticky-book {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-                bottom: 20px;
-                right: 20px;
-            }
-        }
-        
-        @media (max-width: 400px) {
-            .hero-content h1 {
-                font-size: 2.4rem;
-            }
-            
-            .hero-content p {
-                font-size: 1rem;
-            }
-            
-            .hero-btns .btn {
-                width: 100%;
-                text-align: center;
-                padding: 12px 20px;
-            }
-            
-            .contact-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .contact-item i {
-                margin-bottom: 5px;
             }
         }
     </style>
@@ -1308,12 +1260,6 @@
             </div>
             <h3>Booking Confirmed!</h3>
             <p>Thank you for booking with Art Zone Salon. We'll contact you shortly to confirm your appointment details.</p>
-            <div class="booking-details">
-                <p><span>Name:</span> <span id="confirm-name"></span></p>
-                <p><span>Phone:</span> <span id="confirm-phone"></span></p>
-                <p><span>Service:</span> <span id="confirm-service"></span></p>
-                <p><span>Stylist:</span> <span id="confirm-stylist"></span></p>
-            </div>
             <a href="#" class="btn close-confirmation">Close</a>
         </div>
     </div>
@@ -1717,7 +1663,7 @@
         </div>
     </section>
 
-     <!-- Happy Customers Section -->
+    <!-- Happy Customers Section -->
     <section id="happy-customers">
         <div class="container">
             <div class="section-header">
@@ -1758,8 +1704,8 @@
                     <div class="play-icon"><i class="fas fa-play-circle"></i></div>
                 </div>
                 <div class="customer-item">
-                    <video poster="cp6.png">
-                        <source src="v6.mp4" type="video/mp4">
+                    <video poster="nvp.jpg">
+                        <source src="nv.mp4" type="video/mp4">
                     </video>
                     <div class="play-icon"><i class="fas fa-play-circle"></i></div>
                 </div>
@@ -1874,15 +1820,14 @@
                                     <option value="royal">Royal Treatment (₹3500)</option>
                                 </optgroup>
                             </select>
-
                         </div>
                         <div class="form-group">
                             <label for="barber">Preferred Stylist (Optional)</label>
                             <select id="barber" name="stylist">
                                 <option value="">No preference</option>
-                                <option value="james">James Wilson</option>
-                                <option value="marcus">Marcus Chen</option>
-                                <option value="sofia">Sofia Rodriguez</option>
+                                <option value="james">Abhishek Kadwe</option>
+                                <option value="marcus">Akshay Kadwe</option>
+                                <option value="sofia">Mr_Nick_07</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1891,6 +1836,22 @@
                         </div>
                         <button type="submit" class="btn">Book Now</button>
                     </form>
+                    
+                    <div class="booking-confirmation">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3>Booking Confirmed!</h3>
+                        <p>Thank you for booking with Art Zone Salon.</p>
+                        <div class="booking-details">
+                            <p><span>Name:</span> <span id="confirm-name"></span></p>
+                            <p><span>Phone:</span> <span id="confirm-phone"></span></p>
+                            <p><span>Service:</span> <span id="confirm-service"></span></p>
+                            <p><span>Stylist:</span> <span id="confirm-stylist"></span></p>
+                        </div>
+                        <p>We'll contact you shortly to confirm your appointment details.</p>
+                        <button class="btn close-confirmation">Book Another Appointment</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2013,7 +1974,7 @@
                 </div>
             </div>
             <div class="copyright">
-                <span class="made-by">Made by RR Industryy</span>
+                <p> Made by RR Industryy</p>
                 <p>&copy; 2025 Art Zone Salon. All Rights Reserved.</p>
             </div>
         </div>
@@ -2026,255 +1987,258 @@
 
     <script>
         // Enhanced Preloader
-window.addEventListener('load', function() {
-    const preloader = document.getElementById('preloader');
-    setTimeout(function() {
-        preloader.style.opacity = '0';
-        preloader.style.visibility = 'hidden';
-        setTimeout(function() {
-            preloader.style.display = 'none';
-        }, 500);
-    }, 1500);
-});
-
-// Mobile Navigation Toggle
-const mobileToggle = document.querySelector('.mobile-toggle');
-const mobileClose = document.querySelector('.mobile-close');
-const navMenu = document.querySelector('nav ul');
-
-mobileToggle.addEventListener('click', () => {
-    navMenu.classList.add('active');
-    mobileClose.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-});
-
-mobileClose.addEventListener('click', () => {
-    navMenu.classList.remove('active');
-    mobileClose.style.display = 'none';
-    document.body.style.overflow = '';
-});
-
-// Close menu when clicking on a link
-document.querySelectorAll('nav ul li a').forEach(link => {
-    link.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+                
+                setTimeout(function() {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 3000); // Increased to 3 seconds to allow full animation
+        });
+        
+        // Mobile Navigation Toggle - Enhanced with right-aligned hamburger
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const mobileClose = document.querySelector('.mobile-close');
+        const navMenu = document.querySelector('nav ul');
+        
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.add('active');
+            mobileClose.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+        });
+        
+        mobileClose.addEventListener('click', () => {
             navMenu.classList.remove('active');
             mobileClose.style.display = 'none';
-            document.body.style.overflow = '';
-        }
-    });
-});
-
-// FAQ Accordion
-const faqItems = document.querySelectorAll('.faq-item');
-
-faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-    
-    question.addEventListener('click', () => {
-        item.classList.toggle('active');
-    });
-});
-
-// Smooth Scrolling for Navigation Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
+            document.body.style.overflow = ''; // Re-enable scrolling
+        });
         
-        const target = document.querySelector(this.getAttribute('href'));
+        // Close menu when clicking on a link
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('active');
+                    mobileClose.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+        });
         
-        if (target) {
-            window.scrollTo({
-                top: target.offsetTop - 90,
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 90,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.padding = '15px 0';
+                header.style.background = 'rgba(18, 18, 18, 0.98)';
+            } else {
+                header.style.padding = '20px 0';
+                header.style.background = 'rgba(18, 18, 18, 0.95)';
+            }
+        });
+        
+        // Sticky book button click
+        document.querySelector('.sticky-book').addEventListener('click', () => {
+            document.querySelector('#contact').scrollIntoView({
                 behavior: 'smooth'
             });
-        }
-    });
-});
-
-// Header scroll effect
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('header');
-    if (window.scrollY > 100) {
-        header.style.padding = '15px 0';
-        header.style.background = 'rgba(18, 18, 18, 0.98)';
-    } else {
-        header.style.padding = '20px 0';
-        header.style.background = 'rgba(18, 18, 18, 0.95)';
-    }
-});
-
-// Sticky book button click
-document.querySelector('.sticky-book').addEventListener('click', () => {
-    document.querySelector('#contact').scrollIntoView({
-        behavior: 'smooth'
-    });
-});
-
-// Form submission with Web3Forms integration
-const bookingForm = document.getElementById('booking-form');
-const formStatus = document.querySelector('.form-status');
-const confirmationModal = document.querySelector('.confirmation-modal');
-
-if (bookingForm) {
-    bookingForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        });
         
-        // Get form values
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const service = document.getElementById('service').value;
-        const stylist = document.getElementById('barber').value || 'No preference';
-        const serviceName = document.getElementById('service').options[document.getElementById('service').selectedIndex].text;
+        // Form submission with Web3Forms integration
+        const bookingForm = document.getElementById('booking-form');
+        const bookingConfirmation = document.querySelector('.booking-confirmation');
+        const formStatus = document.querySelector('.form-status');
         
-        // Set confirmation details
-        document.getElementById('confirm-name').textContent = name;
-        document.getElementById('confirm-phone').textContent = phone;
-        document.getElementById('confirm-service').textContent = serviceName;
-        document.getElementById('confirm-stylist').textContent = stylist;
-        
-        // Prepare form data
-        const formData = new FormData(bookingForm);
-        formData.append('service_name', serviceName);
-        
-        try {
-            // Submit to Web3Forms
-            const response = await fetch(bookingForm.action, {
-                method: 'POST',
-                body: formData
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const service = document.getElementById('service').value;
+                const stylist = document.getElementById('barber').value || 'No preference';
+                const serviceName = document.getElementById('service').options[document.getElementById('service').selectedIndex].text;
+                
+                // Set confirmation details
+                document.getElementById('confirm-name').textContent = name;
+                document.getElementById('confirm-phone').textContent = phone;
+                document.getElementById('confirm-service').textContent = serviceName;
+                document.getElementById('confirm-stylist').textContent = stylist;
+                
+                // Show confirmation UI
+                bookingConfirmation.classList.add('active');
+                bookingForm.style.display = 'none';
+                
+                // Prepare form data
+                const formData = new FormData(bookingForm);
+                formData.append('service_name', serviceName);
+                
+                try {
+                    // Submit to Web3Forms
+                    const response = await fetch(bookingForm.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        formStatus.textContent = "Thank you! Your booking request has been submitted.";
+                        formStatus.className = "form-status success";
+                    } else {
+                        formStatus.textContent = "There was an error submitting your form. Please try again.";
+                        formStatus.className = "form-status error";
+                        console.error('Form submission error:', result.message);
+                    }
+                } catch (error) {
+                    formStatus.textContent = "Network error. Please try again later.";
+                    formStatus.className = "form-status error";
+                    console.error('Error:', error);
+                }
+                
+                // Show the modal confirmation
+                setTimeout(() => {
+                    document.querySelector('.confirmation-modal').classList.add('active');
+                    
+                    // Reset the form after modal is shown
+                    setTimeout(() => {
+                        bookingForm.reset();
+                        bookingForm.style.display = 'block';
+                        bookingConfirmation.classList.remove('active');
+                    }, 3000);
+                }, 3000);
             });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                formStatus.textContent = "Thank you! Your booking request has been submitted.";
-                formStatus.className = "form-status success";
-                // Show the confirmation modal
-                confirmationModal.classList.add('active');
-                bookingForm.reset();
-            } else {
-                formStatus.textContent = "There was an error submitting your form. Please try again.";
-                formStatus.className = "form-status error";
-                console.error('Form submission error:', result.message);
-            }
-        } catch (error) {
-            formStatus.textContent = "Network error. Please try again later.";
-            formStatus.className = "form-status error";
-            console.error('Error:', error);
         }
-    });
-}
-
-// Close confirmation modal
-document.querySelector('.close-modal').addEventListener('click', () => {
-    confirmationModal.classList.remove('active');
-});
-
-document.querySelector('.close-confirmation').addEventListener('click', (e) => {
-    e.preventDefault();
-    confirmationModal.classList.remove('active');
-});
-
-// Service category filtering
-const categoryBtns = document.querySelectorAll('.category-btn');
-const serviceCards = document.querySelectorAll('.service-card');
-
-categoryBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Remove active class from all buttons
-        categoryBtns.forEach(b => b.classList.remove('active'));
-        // Add active class to clicked button
-        btn.classList.add('active');
         
-        const category = btn.dataset.category;
-        
-        // Filter services
-        serviceCards.forEach(card => {
-            if (category === 'all' || card.dataset.category === category) {
-                card.classList.add('active');
-            } else {
-                card.classList.remove('active');
-            }
+        // Close confirmation modals
+        document.querySelectorAll('.close-confirmation').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('.confirmation-modal').classList.remove('active');
+                bookingConfirmation.classList.remove('active');
+                bookingForm.style.display = 'block';
+            });
         });
-    });
-});
-
-// Video play functionality - play directly in card (UPDATED)
-const videoItems = document.querySelectorAll('.customer-item');
-
-videoItems.forEach(item => {
-    const video = item.querySelector('video');
-    const playIcon = item.querySelector('.play-icon');
-    
-    item.addEventListener('click', (e) => {
-        e.preventDefault();
         
-        if (video.paused) {
-            // Play this video
-            video.play();
-            item.classList.add('playing');
-            playIcon.style.display = 'none';
-        } else {
-            // Pause this video
-            video.pause();
-            item.classList.remove('playing');
-            playIcon.style.display = 'block';
-        }
-    });
-    
-    // Hide play icon when video ends
-    video.addEventListener('ended', () => {
-        item.classList.remove('playing');
-        playIcon.style.display = 'block';
-    });
-});
-
-// Service links in footer
-document.querySelectorAll('[data-service]').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const service = link.dataset.service;
+        document.querySelector('.close-modal').addEventListener('click', () => {
+            document.querySelector('.confirmation-modal').classList.remove('active');
+        });
         
-        // Activate the corresponding category button
+        // Service category filtering
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const serviceCards = document.querySelectorAll('.service-card');
+        
         categoryBtns.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.dataset.category === 'women' && ['haircut', 'coloring', 'keratin'].includes(service)) {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
                 btn.classList.add('active');
-            }
-            if (btn.dataset.category === 'men' && service === 'beard') {
-                btn.classList.add('active');
-            }
-            if (btn.dataset.category === 'facials' && service === 'facials') {
-                btn.classList.add('active');
-            }
-            if (btn.dataset.category === 'treatments' && service === 'treatments') {
-                btn.classList.add('active');
-            }
+                
+                const category = btn.dataset.category;
+                
+                // Filter services
+                serviceCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.classList.add('active');
+                    } else {
+                        card.classList.remove('active');
+                    }
+                });
+            });
         });
         
-        // Show all services initially
-        serviceCards.forEach(card => card.classList.remove('active'));
-        
-        // Show services based on category
-        if (service === 'haircut' || service === 'coloring') {
-            document.querySelectorAll('[data-category="women"]').forEach(card => card.classList.add('active'));
-        } else if (service === 'keratin') {
-            document.querySelectorAll('[data-category="treatments"]').forEach(card => card.classList.add('active'));
-        } else if (service === 'facials') {
-            document.querySelectorAll('[data-category="facials"]').forEach(card => card.classList.add('active'));
-        } else if (service === 'beard') {
-            document.querySelectorAll('[data-category="men"]').forEach(card => card.classList.add('active'));
-        } else if (service === 'treatments') {
-            document.querySelectorAll('[data-category="treatments"]').forEach(card => card.classList.add('active'));
-        }
-        
-        // Scroll to services section
-        document.querySelector('#services').scrollIntoView({
-            behavior: 'smooth'
+        // Video play functionality
+        const videoItems = document.querySelectorAll('.customer-item video');
+        videoItems.forEach(video => {
+            video.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (video.paused) {
+                    video.play();
+                    video.nextElementSibling.style.display = 'none';
+                } else {
+                    video.pause();
+                    video.nextElementSibling.style.display = 'block';
+                }
+            });
         });
-    });
-});
+        
+        // Service links in footer
+        document.querySelectorAll('[data-service]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const service = link.dataset.service;
+                
+                // Activate the corresponding category button
+                categoryBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.category === 'women' && ['haircut', 'coloring', 'keratin'].includes(service)) {
+                        btn.classList.add('active');
+                    }
+                    if (btn.dataset.category === 'men' && service === 'beard') {
+                        btn.classList.add('active');
+                    }
+                    if (btn.dataset.category === 'facials' && service === 'facials') {
+                        btn.classList.add('active');
+                    }
+                    if (btn.dataset.category === 'treatments' && service === 'treatments') {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Show all services initially
+                serviceCards.forEach(card => card.classList.remove('active'));
+                
+                // Show services based on category
+                if (service === 'haircut' || service === 'coloring') {
+                    document.querySelectorAll('[data-category="women"]').forEach(card => card.classList.add('active'));
+                } else if (service === 'keratin') {
+                    document.querySelectorAll('[data-category="treatments"]').forEach(card => card.classList.add('active'));
+                } else if (service === 'facials') {
+                    document.querySelectorAll('[data-category="facials"]').forEach(card => card.classList.add('active'));
+                } else if (service === 'beard') {
+                    document.querySelectorAll('[data-category="men"]').forEach(card => card.classList.add('active'));
+                } else if (service === 'treatments') {
+                    document.querySelectorAll('[data-category="treatments"]').forEach(card => card.classList.add('active'));
+                }
+                
+                // Scroll to services section
+                document.querySelector('#services').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 </html>
