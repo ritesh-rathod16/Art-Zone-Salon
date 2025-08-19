@@ -2026,267 +2026,255 @@
 
     <script>
         // Enhanced Preloader
-        window.addEventListener('load', function() {
-            const preloader = document.getElementById('preloader');
-            // Start fade out after 1.5 seconds (reduced from 3)
-            setTimeout(function() {
-                preloader.style.opacity = '0';
-                preloader.style.visibility = 'hidden';
-                
-                // Remove from DOM after fade out completes
-                setTimeout(function() {
-                    preloader.style.display = 'none';
-                }, 500);
-            }, 1500);
-        });
-        
-        // Mobile Navigation Toggle
-        const mobileToggle = document.querySelector('.mobile-toggle');
-        const mobileClose = document.querySelector('.mobile-close');
-        const navMenu = document.querySelector('nav ul');
-        
-        mobileToggle.addEventListener('click', () => {
-            navMenu.classList.add('active');
-            mobileClose.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        });
-        
-        mobileClose.addEventListener('click', () => {
+window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
+    setTimeout(function() {
+        preloader.style.opacity = '0';
+        preloader.style.visibility = 'hidden';
+        setTimeout(function() {
+            preloader.style.display = 'none';
+        }, 500);
+    }, 1500);
+});
+
+// Mobile Navigation Toggle
+const mobileToggle = document.querySelector('.mobile-toggle');
+const mobileClose = document.querySelector('.mobile-close');
+const navMenu = document.querySelector('nav ul');
+
+mobileToggle.addEventListener('click', () => {
+    navMenu.classList.add('active');
+    mobileClose.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+});
+
+mobileClose.addEventListener('click', () => {
+    navMenu.classList.remove('active');
+    mobileClose.style.display = 'none';
+    document.body.style.overflow = '';
+});
+
+// Close menu when clicking on a link
+document.querySelectorAll('nav ul li a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
             navMenu.classList.remove('active');
             mobileClose.style.display = 'none';
             document.body.style.overflow = '';
-        });
+        }
+    });
+});
+
+// FAQ Accordion
+const faqItems = document.querySelectorAll('.faq-item');
+
+faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    
+    question.addEventListener('click', () => {
+        item.classList.toggle('active');
+    });
+});
+
+// Smooth Scrolling for Navigation Links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
         
-        // Close menu when clicking on a link
-        document.querySelectorAll('nav ul li a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    navMenu.classList.remove('active');
-                    mobileClose.style.display = 'none';
-                    document.body.style.overflow = '';
-                }
+        const target = document.querySelector(this.getAttribute('href'));
+        
+        if (target) {
+            window.scrollTo({
+                top: target.offsetTop - 90,
+                behavior: 'smooth'
             });
-        });
+        }
+    });
+});
+
+// Header scroll effect
+window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if (window.scrollY > 100) {
+        header.style.padding = '15px 0';
+        header.style.background = 'rgba(18, 18, 18, 0.98)';
+    } else {
+        header.style.padding = '20px 0';
+        header.style.background = 'rgba(18, 18, 18, 0.95)';
+    }
+});
+
+// Sticky book button click
+document.querySelector('.sticky-book').addEventListener('click', () => {
+    document.querySelector('#contact').scrollIntoView({
+        behavior: 'smooth'
+    });
+});
+
+// Form submission with Web3Forms integration
+const bookingForm = document.getElementById('booking-form');
+const formStatus = document.querySelector('.form-status');
+const confirmationModal = document.querySelector('.confirmation-modal');
+
+if (bookingForm) {
+    bookingForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         
-        // FAQ Accordion
-        const faqItems = document.querySelectorAll('.faq-item');
+        // Get form values
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const service = document.getElementById('service').value;
+        const stylist = document.getElementById('barber').value || 'No preference';
+        const serviceName = document.getElementById('service').options[document.getElementById('service').selectedIndex].text;
         
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
+        // Set confirmation details
+        document.getElementById('confirm-name').textContent = name;
+        document.getElementById('confirm-phone').textContent = phone;
+        document.getElementById('confirm-service').textContent = serviceName;
+        document.getElementById('confirm-stylist').textContent = stylist;
+        
+        // Prepare form data
+        const formData = new FormData(bookingForm);
+        formData.append('service_name', serviceName);
+        
+        try {
+            // Submit to Web3Forms
+            const response = await fetch(bookingForm.action, {
+                method: 'POST',
+                body: formData
+            });
             
-            question.addEventListener('click', () => {
-                item.classList.toggle('active');
-            });
-        });
-        
-        // Smooth Scrolling for Navigation Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const target = document.querySelector(this.getAttribute('href'));
-                
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 90,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-        
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.padding = '15px 0';
-                header.style.background = 'rgba(18, 18, 18, 0.98)';
+            const result = await response.json();
+            
+            if (result.success) {
+                formStatus.textContent = "Thank you! Your booking request has been submitted.";
+                formStatus.className = "form-status success";
+                // Show the confirmation modal
+                confirmationModal.classList.add('active');
+                bookingForm.reset();
             } else {
-                header.style.padding = '20px 0';
-                header.style.background = 'rgba(18, 18, 18, 0.95)';
+                formStatus.textContent = "There was an error submitting your form. Please try again.";
+                formStatus.className = "form-status error";
+                console.error('Form submission error:', result.message);
+            }
+        } catch (error) {
+            formStatus.textContent = "Network error. Please try again later.";
+            formStatus.className = "form-status error";
+            console.error('Error:', error);
+        }
+    });
+}
+
+// Close confirmation modal
+document.querySelector('.close-modal').addEventListener('click', () => {
+    confirmationModal.classList.remove('active');
+});
+
+document.querySelector('.close-confirmation').addEventListener('click', (e) => {
+    e.preventDefault();
+    confirmationModal.classList.remove('active');
+});
+
+// Service category filtering
+const categoryBtns = document.querySelectorAll('.category-btn');
+const serviceCards = document.querySelectorAll('.service-card');
+
+categoryBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all buttons
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        // Add active class to clicked button
+        btn.classList.add('active');
+        
+        const category = btn.dataset.category;
+        
+        // Filter services
+        serviceCards.forEach(card => {
+            if (category === 'all' || card.dataset.category === category) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+    });
+});
+
+// Video play functionality - play directly in card (UPDATED)
+const videoItems = document.querySelectorAll('.customer-item');
+
+videoItems.forEach(item => {
+    const video = item.querySelector('video');
+    const playIcon = item.querySelector('.play-icon');
+    
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if (video.paused) {
+            // Play this video
+            video.play();
+            item.classList.add('playing');
+            playIcon.style.display = 'none';
+        } else {
+            // Pause this video
+            video.pause();
+            item.classList.remove('playing');
+            playIcon.style.display = 'block';
+        }
+    });
+    
+    // Hide play icon when video ends
+    video.addEventListener('ended', () => {
+        item.classList.remove('playing');
+        playIcon.style.display = 'block';
+    });
+});
+
+// Service links in footer
+document.querySelectorAll('[data-service]').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const service = link.dataset.service;
+        
+        // Activate the corresponding category button
+        categoryBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.category === 'women' && ['haircut', 'coloring', 'keratin'].includes(service)) {
+                btn.classList.add('active');
+            }
+            if (btn.dataset.category === 'men' && service === 'beard') {
+                btn.classList.add('active');
+            }
+            if (btn.dataset.category === 'facials' && service === 'facials') {
+                btn.classList.add('active');
+            }
+            if (btn.dataset.category === 'treatments' && service === 'treatments') {
+                btn.classList.add('active');
             }
         });
         
-        // Sticky book button click
-        document.querySelector('.sticky-book').addEventListener('click', () => {
-            document.querySelector('#contact').scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
+        // Show all services initially
+        serviceCards.forEach(card => card.classList.remove('active'));
         
-        // Form submission with Web3Forms integration
-        const bookingForm = document.getElementById('booking-form');
-        const formStatus = document.querySelector('.form-status');
-        const confirmationModal = document.querySelector('.confirmation-modal');
-        
-        if (bookingForm) {
-            bookingForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                // Get form values
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const phone = document.getElementById('phone').value;
-                const service = document.getElementById('service').value;
-                const stylist = document.getElementById('barber').value || 'No preference';
-                const serviceName = document.getElementById('service').options[document.getElementById('service').selectedIndex].text;
-                
-                // Set confirmation details
-                document.getElementById('confirm-name').textContent = name;
-                document.getElementById('confirm-phone').textContent = phone;
-                document.getElementById('confirm-service').textContent = serviceName;
-                document.getElementById('confirm-stylist').textContent = stylist;
-                
-                // Prepare form data
-                const formData = new FormData(bookingForm);
-                formData.append('service_name', serviceName);
-                
-                try {
-                    // Submit to Web3Forms
-                    const response = await fetch(bookingForm.action, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        formStatus.textContent = "Thank you! Your booking request has been submitted.";
-                        formStatus.className = "form-status success";
-                        // Show the confirmation modal
-                        confirmationModal.classList.add('active');
-                        bookingForm.reset();
-                    } else {
-                        formStatus.textContent = "There was an error submitting your form. Please try again.";
-                        formStatus.className = "form-status error";
-                        console.error('Form submission error:', result.message);
-                    }
-                } catch (error) {
-                    formStatus.textContent = "Network error. Please try again later.";
-                    formStatus.className = "form-status error";
-                    console.error('Error:', error);
-                }
-            });
+        // Show services based on category
+        if (service === 'haircut' || service === 'coloring') {
+            document.querySelectorAll('[data-category="women"]').forEach(card => card.classList.add('active'));
+        } else if (service === 'keratin') {
+            document.querySelectorAll('[data-category="treatments"]').forEach(card => card.classList.add('active'));
+        } else if (service === 'facials') {
+            document.querySelectorAll('[data-category="facials"]').forEach(card => card.classList.add('active'));
+        } else if (service === 'beard') {
+            document.querySelectorAll('[data-category="men"]').forEach(card => card.classList.add('active'));
+        } else if (service === 'treatments') {
+            document.querySelectorAll('[data-category="treatments"]').forEach(card => card.classList.add('active'));
         }
         
-        // Close confirmation modal
-        document.querySelector('.close-modal').addEventListener('click', () => {
-            confirmationModal.classList.remove('active');
+        // Scroll to services section
+        document.querySelector('#services').scrollIntoView({
+            behavior: 'smooth'
         });
-        
-        document.querySelector('.close-confirmation').addEventListener('click', (e) => {
-            e.preventDefault();
-            confirmationModal.classList.remove('active');
-        });
-        
-        // Service category filtering
-        const categoryBtns = document.querySelectorAll('.category-btn');
-        const serviceCards = document.querySelectorAll('.service-card');
-        
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                categoryBtns.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                const category = btn.dataset.category;
-                
-                // Filter services
-                serviceCards.forEach(card => {
-                    if (category === 'all' || card.dataset.category === category) {
-                        card.classList.add('active');
-                    } else {
-                        card.classList.remove('active');
-                    }
-                });
-            });
-        });
-        
-        // Video play functionality - play directly in card
-        const videoItems = document.querySelectorAll('.customer-item');
-        
-        videoItems.forEach(item => {
-            const video = item.querySelector('video');
-            const playIcon = item.querySelector('.play-icon');
-            
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                if (video.paused) {
-                    // Pause all other videos
-                    document.querySelectorAll('.customer-item video').forEach(v => {
-                        if (v !== video) {
-                            v.pause();
-                            v.parentElement.classList.remove('playing');
-                            v.parentElement.querySelector('.play-icon').style.display = 'block';
-                        }
-                    });
-                    
-                    // Play this video
-                    video.play();
-                    item.classList.add('playing');
-                    playIcon.style.display = 'none';
-                } else {
-                    // Pause this video
-                    video.pause();
-                    item.classList.remove('playing');
-                    playIcon.style.display = 'block';
-                }
-            });
-            
-            // Hide play icon when video ends
-            video.addEventListener('ended', () => {
-                item.classList.remove('playing');
-                playIcon.style.display = 'block';
-            });
-        });
-        
-        // Service links in footer
-        document.querySelectorAll('[data-service]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const service = link.dataset.service;
-                
-                // Activate the corresponding category button
-                categoryBtns.forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.category === 'women' && ['haircut', 'coloring', 'keratin'].includes(service)) {
-                        btn.classList.add('active');
-                    }
-                    if (btn.dataset.category === 'men' && service === 'beard') {
-                        btn.classList.add('active');
-                    }
-                    if (btn.dataset.category === 'facials' && service === 'facials') {
-                        btn.classList.add('active');
-                    }
-                    if (btn.dataset.category === 'treatments' && service === 'treatments') {
-                        btn.classList.add('active');
-                    }
-                });
-                
-                // Show all services initially
-                serviceCards.forEach(card => card.classList.remove('active'));
-                
-                // Show services based on category
-                if (service === 'haircut' || service === 'coloring') {
-                    document.querySelectorAll('[data-category="women"]').forEach(card => card.classList.add('active'));
-                } else if (service === 'keratin') {
-                    document.querySelectorAll('[data-category="treatments"]').forEach(card => card.classList.add('active'));
-                } else if (service === 'facials') {
-                    document.querySelectorAll('[data-category="facials"]').forEach(card => card.classList.add('active'));
-                } else if (service === 'beard') {
-                    document.querySelectorAll('[data-category="men"]').forEach(card => card.classList.add('active'));
-                } else if (service === 'treatments') {
-                    document.querySelectorAll('[data-category="treatments"]').forEach(card => card.classList.add('active'));
-                }
-                
-                // Scroll to services section
-                document.querySelector('#services').scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+    });
+});
     </script>
 </body>
 </html>
